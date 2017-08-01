@@ -21,10 +21,10 @@ def localLogin():
         print("Login successful, press Ctrl + C to exit pinging")
     while success:
         try:
-            networking.ping(number,first,False,token)
+            status = networking.ping(number,first,False,token)
             if first == True:
                 first = False
-                time.sleep(PING_INTERVAL)
+            time.sleep(PING_INTERVAL)
         except KeyboardInterrupt:
             networking.ping(number,False,True,token)
             break
