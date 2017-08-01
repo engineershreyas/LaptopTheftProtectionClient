@@ -1,17 +1,17 @@
 import requests
 import json
+import config
 
-localBase = "http://localhost:3000"
-remoteBase = "https://powerful-shelf-75482.herokuapp.com"
+LOCAL_BASE = "http://localhost:3000"
 userSuffix = "/users"
 reciverSuffix = "/main"
 debug = False
 
 def getBase():
     if debug:
-        return localBase
+        return LOCAL_BASE
     else:
-        return remoteBase
+        return config.REMOTE_BASE
 
 def login(number, password):
     url = getBase() + userSuffix + "/login"
@@ -41,5 +41,4 @@ def ping(number,first,end,token):
     data = {'number' : number,'first': first, 'end' : end, 'token' : token}
     r = requests.get(url, data)
     res = json.loads(r.text)
-    print res["message"]
     return res["status"]

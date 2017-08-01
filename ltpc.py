@@ -4,23 +4,29 @@ import networking
 import time
 import getpass
 
+PING_INTERVAL = 2
+VALID_NUMBER_LENGTH = 10
+
 def localLogin():
     number = raw_input("What is your 10 digit phone number?\n")
-    if len(number) != 10:
+    if len(number) != VALID_NUMBER_LENGTH:
         print("Invalid Phone Number")
         localLogin()
     number = "+1" + number
     password = getpass.getpass("What is your password?\n")
     token = networking.login(number, password)
     first = True
-    while token != None:
+    success = (token != None)
+    if success:
+        print("Login successful, press Ctrl + C to exit pinging")
+    while success:
         try:
-            status = networking.ping(number,first,False,token)
+            networking.ping(number,first,False,token)
             if first == True:
                 first = False
-                time.sleep(2)
+                time.sleep(PING_INTERVAL)
         except KeyboardInterrupt:
-            status = networking.ping(number,False,True,token)
+            networking.ping(number,False,True,token)
             break
     else:
         print("Invalid Login")
@@ -28,7 +34,7 @@ def localLogin():
 
 def localRegister():
     number = raw_input("What is your 10 digit phone number?\n")
-    if len(number) != 10:
+    if len(number) != VALID_NUMBER_LENGTH:
         print("Invalid Phone Number")
         localRegister()
     number = "+1" + number
@@ -41,6 +47,7 @@ def localRegister():
             print("Please enter matching passwords\n")
     success = networking.register(number, password)
     if success:
+        print("Registration successful, please login now\n")
         localLogin()
     else:
         print("Register failed, please try again\n")
