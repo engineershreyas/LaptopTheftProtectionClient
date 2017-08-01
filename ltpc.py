@@ -1,45 +1,53 @@
 token = None
 option = None
 import networking
-
-while option is not "1" or option is not "2":
-    option = raw_input("Choose 1 for Login and 2 for Register, Press anything else to quit")
-    if option is "1":
-        localLogin()
-    elif option is "2":
-        localRegister()
-    else:
-        break
+import time
+import getpass
 
 def localLogin():
-    number = raw_input("What is your 10 digit phone number?")
+    number = raw_input("What is your 10 digit phone number?\n")
+    if len(number) != 10:
+        print("Invalid Phone Number")
+        localLogin()
     number = "+1" + number
-    password = raw_input("What is your password?")
+    password = getpass.getpass("What is your password?\n")
     token = networking.login(number, password)
-    if token is not None:
-        while True:
-            status = networking.ping(number,token)
-            if status is "alert" or status is "error":
-                break
+    first = True
+    while token != None:
+        status = networking.ping(number,first,token)
+        if first == True:
+            first = False
+        time.sleep(2)
     else:
         print("Invalid Login")
         option = None
 
 def localRegister():
-    number = raw_input("What is your 10 digit phone number?")
+    number = raw_input("What is your 10 digit phone number?\n")
+    if len(number) != 10:
+        print("Invalid Phone Number")
+        localRegister()
     number = "+1" + number
-    firstname = raw_input("What is your first name")
-    lastname = raw_input("What is your last name")
+    firstname = raw_input("What is your first name\n")
+    lastname = raw_input("What is your last name\n")
     password = "x"
     confirm = "y"
-    while password is not confirm:
-        password = raw_input("What do you want your password to be?")
-        confirm = raw_input("Confirm your password")
-        if password is not confirm:
-            print("Please enter matching passwords")
+    while password != confirm:
+        password = getpass.getpass("What do you want your password to be?\n")
+        confirm = getpass.getpass("Confirm your password\n")
+        if password != confirm:
+            print("Please enter matching passwords\n")
     success = networking.register(number, password, firstname, lastname)
     if success:
         localLogin()
     else:
-        print("Register failed, please try again")
+        print("Register failed, please try again\n")
+
+while True:
+    option = raw_input("Choose 1 for Login and 2 for Register, or press anything else to quit\n")
+    if option == "1":
+        localLogin()
+    elif option == "2":
         localRegister()
+    else:
+        break

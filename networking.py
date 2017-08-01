@@ -18,12 +18,11 @@ def login(number, password):
     data = {'number' : number, 'password' : password}
     r = requests.post(url,json=data)
     res = json.loads(r.text)
-    if res.status is "ok":
-        token = res.token
+    if res["status"] == "ok":
+        token = res["token"]
         print token
         return token
-    else
-        print res.message
+    else:
         return None
 
 def register(number,password,firstname,lastname):
@@ -31,16 +30,16 @@ def register(number,password,firstname,lastname):
     data = {'number' : number, 'password' : password, 'firstName' : firstname, 'lastName' : lastname}
     r = requests.post(url,json=data)
     res = json.loads(r.text)
-    if res.status is "ok":
+    if res["status"] == "ok":
         return True
-    else
-        print res.message
+    else:
         return False
 
-def ping(number,token):
+def ping(number,first, token):
+    print("pinging")
     url = getBase() + reciverSuffix + "/receive"
-    data = {'number' : number,'token' : token}
+    data = {'number' : number,'first': first, 'token' : token}
     r = requests.get(url, data)
     res = json.loads(r.text)
-    print res.message
-    return res.status
+    print res["message"]
+    return res["status"]
