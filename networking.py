@@ -25,9 +25,9 @@ def login(number, password):
     else:
         return None
 
-def register(number,password,firstname,lastname):
+def register(number,password):
     url = getBase() + userSuffix + "/register"
-    data = {'number' : number, 'password' : password, 'firstName' : firstname, 'lastName' : lastname}
+    data = {'number' : number, 'password' : password}
     r = requests.post(url,json=data)
     res = json.loads(r.text)
     if res["status"] == "ok":

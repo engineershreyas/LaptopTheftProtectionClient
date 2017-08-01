@@ -32,8 +32,6 @@ def localRegister():
         print("Invalid Phone Number")
         localRegister()
     number = "+1" + number
-    firstname = raw_input("What is your first name\n")
-    lastname = raw_input("What is your last name\n")
     password = "x"
     confirm = "y"
     while password != confirm:
@@ -41,7 +39,7 @@ def localRegister():
         confirm = getpass.getpass("Confirm your password\n")
         if password != confirm:
             print("Please enter matching passwords\n")
-    success = networking.register(number, password, firstname, lastname)
+    success = networking.register(number, password)
     if success:
         localLogin()
     else:
