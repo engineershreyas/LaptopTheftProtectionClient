@@ -2,10 +2,10 @@ import requests
 import json
 
 localBase = "http://localhost:3000"
-remoteBase = "https://idk.com"
+remoteBase = "https://powerful-shelf-75482.herokuapp.com"
 userSuffix = "/users"
 reciverSuffix = "/main"
-debug = True
+debug = False
 
 def getBase():
     if debug:
