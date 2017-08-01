@@ -20,7 +20,6 @@ def login(number, password):
     res = json.loads(r.text)
     if res["status"] == "ok":
         token = res["token"]
-        print token
         return token
     else:
         return None
