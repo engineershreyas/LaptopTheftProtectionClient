@@ -14,10 +14,14 @@ def localLogin():
     token = networking.login(number, password)
     first = True
     while token != None:
-        status = networking.ping(number,first,token)
-        if first == True:
-            first = False
-        time.sleep(2)
+        try:
+            status = networking.ping(number,first,False,token)
+            if first == True:
+                first = False
+                time.sleep(2)
+        except KeyboardInterrupt:
+            status = networking.ping(number,False,True,token)
+            break
     else:
         print("Invalid Login")
         option = None

@@ -5,7 +5,7 @@ localBase = "http://localhost:3000"
 remoteBase = "https://powerful-shelf-75482.herokuapp.com"
 userSuffix = "/users"
 reciverSuffix = "/main"
-debug = False
+debug = True
 
 def getBase():
     if debug:
@@ -35,10 +35,10 @@ def register(number,password,firstname,lastname):
     else:
         return False
 
-def ping(number,first, token):
+def ping(number,first,end,token):
     print("pinging")
     url = getBase() + reciverSuffix + "/receive"
-    data = {'number' : number,'first': first, 'token' : token}
+    data = {'number' : number,'first': first, 'end' : end, 'token' : token}
     r = requests.get(url, data)
     res = json.loads(r.text)
     print res["message"]
